@@ -40,7 +40,7 @@ npx create-next-app mynextproject
 
 - **package-lock.json**: Archivo para manejar dependencias de dependencias
 
-- **package.json**: Archivo para que podamos ejecutar nuestros propios script y tambien las dependencias que usamos
+- **package.json**: Archivo para que podamos ejecutar nuestros propios script y tambien las dependencias que usamos para que al descargarlo de la nube podamos descargar las dependencias
 
 - **README.md**: Aqui podemos describir el documento o aplicacion
 
@@ -122,3 +122,140 @@ export default function RootLayout({ children }) {
 En el ejemplo que nos proporciona next no nos aparace
 
 `<head><title>My app</title></head>` ya que Next lo agrega de otra manera con metadata
+
+## ----------------> Link
+
+En esta seccion vamos aprender como cambiar de pagina
+
+-Para cambiar de pagina podriamos usar la etiqueta `<a href="http://>About</a>` pero esto hace que se recargue la pagina.
+
+y esto NO ES IDEAL ya que React es una aplicacion side rendering
+
+---
+
+## **app\layout.jsx**
+
+---
+
+```jsx
+          /** Este es el contenedor raiz*/
+          export default function RootLayout({ children }) {
+            return (
+              <html lang="en">
+                <head><title>My app</title></head>
+                <body>
+                  <nav><h1>Navbar</h1>
+                  <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                  </ul>
+                  </nav>
+                  {children}
+                </body>
+              </html>
+            );
+          }
+```
+
+Asi que usaremos un componente que nos da Next llamado y para eso lo vamos import-> Link
+
+y simplemente remplaza a la etiqueta `<a href="http://` por `<Link href="/">`
+
+y esto hace que no cambie la pestaña
+
+---
+
+```jsx
+/** Este es el contenedor raiz*/
+import Link from 'next/link'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <head><title>My app</title></head>
+      <body>
+        <nav><h1>Navbar</h1>
+        <ul>
+          <li><Link href="/">Home</Link></li>
+          <li><Link href="/about">About</Link></li>
+        </ul>
+        </nav>
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+## Los nombres layout.jsx y page.jsx
+
+Los nombres layout.jsx y page.jsx estan reservados en Next asi cualquiera que no se llame asi dara un error
+
+-Podemos poner el Navbar en su propio componente
+
+---
+
+![Como crear paginas](./images/5.png)
+
+### **app\Navbar.jsx**
+
+---
+
+```jsx
+import Link from 'next/link'
+
+export default function Navbar() {
+    return (
+        <div>
+            <nav><h1>Navbar</h1>
+                <ul>
+                    <li><Link href="/">Home</Link></li>
+                    <li><Link href="/about">About</Link></li>
+                </ul>
+            </nav>
+        </div>
+    )
+}
+```
+
+## Crear una carpeta **components**
+
+---
+
+Tambien lo que podemos hacer es poner a Navbar en una carpeta **components** esto permitira tener el codigo mas organizado
+
+---
+
+```jsx
+/** Este es el contenedor raiz*/
+import Navbar from '../components/Navbar'    /** Primero lo importamos desde la carpeta components*/
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <head><title>My app</title></head>
+      <body>
+        <Navbar/>                         {/**Y ya pusimos a Navbar en la carpeta components*/}
+        <hr/>
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+![Crear una carpeta components](./images/6.png)
+
+## Layout
+
+NextJS nos permite crear multiples **layouts** por ejemplo aqui lo que hicimos es poner una subanvegacion dentro de la carpeta tienda lo que hace que solo **Tienda** tenga esta layout
+
+---
+
+![Layout](./images/7.png)
+
+## Metadata
+
+NextJS hace que lo que hace que pueda ser interactivo
+
+![Metadata](./images/8.png)
